@@ -1,3 +1,4 @@
+// ProductManager.js
 const fs = require('fs/promises');
 
 class ProductManager {
@@ -11,7 +12,7 @@ class ProductManager {
             await fs.access(this.path); // Verifica si el archivo existe
         } catch (error) {
             // Si no existe, crea el archivo con un arreglo vacío
-            await this.writeFile([]);
+            await this.saveProducts([]); // Corrección aquí
         }
     }
 
@@ -124,42 +125,4 @@ class ProductManager {
     }
 }
 
-// Ejemplo de uso
-const productManager = new ProductManager('productos.json');
-
-async function main() {
-    try {
-        await productManager.addProduct({
-            title: 'Producto 3',
-            description: 'Descripción 3',
-            price: 50,
-            thumbnail: 'imagen 3',
-            code: 'C3',
-            stock: 10,
-        });
-
-        const allProducts = await productManager.getProducts();
-        console.log('Todos los productos:', allProducts);
-
-        const productById = await productManager.getProductById(1);
-        console.log('Producto por ID:', productById);
-
-        await productManager.updateProduct(1, {
-            title: 'Producto 1 (Actualizado)',
-            description: 'Descripción 1 (Actualizado)',
-            price: 50,
-            thumbnail: 'imagen 1',
-            code: 'A1',
-            stock: 10,
-        });
-
-        await productManager.deleteProduct(2);
-
-        const updatedProducts = await productManager.getProducts();
-        console.log('Productos actualizados:', updatedProducts);
-    } catch (error) {
-        console.error('Error en el programa principal:', error);
-    }
-}
-
-main();
+module.exports = ProductManager;
