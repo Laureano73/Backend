@@ -1,0 +1,41 @@
+{{!-- Renderiza la lista de productos --}}
+<ul>
+    {{#each products}}
+        <li>{{this.title}} - {{this.description}} - ${{this.price}}</li>
+    {{/each}}
+</ul>
+
+{{!-- Agrega el script para imprimir la lista de productos en la consola --}}
+<script>
+    {{#if products}}
+        console.log(products); // Agrega esta línea para imprimir la lista en la consola
+    {{/if}}
+</script>
+
+{{!-- Agrega el script de Socket.io para la actualización en tiempo real --}}
+<script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+<script>
+    const socket = io();
+
+    // Escucha el evento de producto agregado
+    socket.on('productAdded', (data) => {
+        // Agrega el nuevo producto a la lista
+        const newProduct = data.product;
+        const listItem = document.createElement('li');
+        listItem.textContent = `${newProduct.title} - ${newProduct.description} - $${newProduct.price}`;
+        document.querySelector('ul').appendChild(listItem);
+    });
+
+    // Escucha el evento de producto eliminado
+    socket.on('productDeleted', (data) => {
+        // Elimina el producto de la lista
+        const deletedProductId = data.productId;
+        const listItems = document.querySelectorAll('ul li');
+        listItems.forEach((item) => {
+            const productId = item.getAttribute('data-product-id');
+            if (productId === deletedProductId) {
+                item.remove();
+            }
+        });
+    });
+</script>
