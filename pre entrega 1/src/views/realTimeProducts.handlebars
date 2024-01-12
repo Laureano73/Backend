@@ -6,11 +6,11 @@
 </ul>
 
 {{!-- Agrega el script para imprimir la lista de productos en la consola --}}
-<script>
-    {{#if products}}
+{{#if products}}
+    <script>
         console.log(products); // Agrega esta línea para imprimir la lista en la consola
-    {{/if}}
-</script>
+    </script>
+{{/if}}
 
 {{!-- Agrega el script de Socket.io para la actualización en tiempo real --}}
 <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
